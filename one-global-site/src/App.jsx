@@ -1,0 +1,413 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { BrowserRouter as Router, Routes, Route, Link, NavLink } from "react-router-dom";
+import { ChevronRight, Menu, X, ArrowRight, CheckCircle2, Building2, Layers3, Briefcase, Phone, Mail, MapPin } from "lucide-react";
+const Card = ({ children, className = "" }) => (
+  <div className={`rounded-2xl border border-slate-200 bg-white ${className}`}>{children}</div>
+);
+
+const CardContent = ({ children, className = "" }) => (
+  <div className={className}>{children}</div>
+);
+
+const Button = ({ children, className = "", asChild = false, ...props }) => {
+  const classes = `inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-800 ${className}`;
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children, {
+      className: `${classes} ${children.props.className || ""}`.trim(),
+      ...props,
+    });
+  }
+
+  return (
+    <button className={classes} {...props}>
+      {children}
+    </button>
+  );
+};
+
+const navGroups = [
+  {
+    label: "Solutions",
+    links: [
+      { name: "Enterprise Solutions", path: "/solutions/enterprise" },
+      { name: "Cloud Services", path: "/solutions/cloud" },
+      { name: "Data & Analytics", path: "/solutions/data-analytics" },
+      { name: "Managed Services", path: "/solutions/managed-services" },
+    ],
+  },
+  {
+    label: "Services",
+    links: [
+      { name: "Consulting", path: "/services/consulting" },
+      { name: "System Integration", path: "/services/system-integration" },
+      { name: "Implementation", path: "/services/implementation" },
+      { name: "Support & Training", path: "/services/support-training" },
+    ],
+  },
+  {
+    label: "Industries",
+    links: [
+      { name: "Healthcare", path: "/industries/healthcare" },
+      { name: "Retail", path: "/industries/retail" },
+      { name: "Manufacturing", path: "/industries/manufacturing" },
+      { name: "Technology", path: "/industries/technology" },
+    ],
+  },
+  {
+    label: "Company",
+    links: [
+      { name: "About", path: "/about" },
+      { name: "Careers", path: "/careers" },
+      { name: "Resources", path: "/resources" },
+      { name: "Contact", path: "/contact" },
+    ],
+  },
+];
+
+const quickLinks = navGroups.flatMap((group) => group.links);
+
+function Layout({ children }) {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900">
+      <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white font-bold">
+              OG
+            </div>
+            <div>
+              <div className="text-lg font-semibold leading-none">One Global Info Systems</div>
+              <div className="text-xs text-slate-500">Technology. Delivery. Growth.</div>
+            </div>
+          </Link>
+
+          <nav className="hidden items-center gap-6 lg:flex">
+            {navGroups.map((group) => (
+              <div key={group.label} className="group relative">
+                <button className="text-sm font-medium text-slate-700 transition hover:text-slate-950">
+                  {group.label}
+                </button>
+                <div className="invisible absolute left-0 top-full mt-3 w-64 rounded-2xl border bg-white p-3 opacity-0 shadow-xl transition-all group-hover:visible group-hover:opacity-100">
+                  {group.links.map((link) => (
+                    <NavLink
+                      key={link.path}
+                      to={link.path}
+                      className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    >
+                      {link.name}
+                      <ChevronRight className="h-4 w-4" />
+                    </NavLink>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <Button asChild className="rounded-2xl px-5">
+              <Link to="/contact">Talk to Us</Link>
+            </Button>
+          </nav>
+
+          <button
+            className="rounded-xl border p-2 lg:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+
+        {mobileOpen && (
+          <div className="border-t bg-white px-4 py-4 lg:hidden">
+            <div className="mx-auto max-w-7xl space-y-4">
+              {navGroups.map((group) => (
+                <div key={group.label}>
+                  <div className="mb-2 text-sm font-semibold text-slate-900">{group.label}</div>
+                  <div className="grid gap-2">
+                    {group.links.map((link) => (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className="rounded-xl px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main>{children}</main>
+
+      <footer className="border-t bg-slate-950 text-slate-200">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-4 lg:px-8">
+          <div>
+            <div className="text-xl font-semibold">One Global Info Systems</div>
+            <p className="mt-3 text-sm leading-6 text-slate-400">
+              A modern technology consulting company website starter with routed pages and editable business content.
+            </p>
+          </div>
+          <div>
+            <div className="mb-3 text-sm font-semibold">Quick Links</div>
+            <div className="space-y-2 text-sm text-slate-400">
+              {quickLinks.slice(0, 6).map((link) => (
+                <div key={link.path}>
+                  <Link to={link.path} className="hover:text-white">
+                    {link.name}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="mb-3 text-sm font-semibold">Services</div>
+            <div className="space-y-2 text-sm text-slate-400">
+              <div>IT Consulting</div>
+              <div>Application Development</div>
+              <div>Cloud & DevOps</div>
+              <div>Data & Reporting</div>
+            </div>
+          </div>
+          <div>
+            <div className="mb-3 text-sm font-semibold">Contact</div>
+            <div className="space-y-3 text-sm text-slate-400">
+              <div className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@oneglobalinfosystems.com</div>
+              <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> +1 (000) 000-0000</div>
+              <div className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Columbus, Ohio</div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function SectionHeading({ eyebrow, title, text }) {
+  return (
+    <div className="max-w-3xl">
+      <div className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">{eyebrow}</div>
+      <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
+      <p className="mt-4 text-base leading-7 text-slate-600">{text}</p>
+    </div>
+  );
+}
+
+function FeatureCard({ icon, title, text }) {
+  return (
+    <Card className="rounded-3xl border-slate-200 shadow-sm">
+      <CardContent className="p-6">
+        <div className="mb-4 inline-flex rounded-2xl bg-slate-100 p-3">{icon}</div>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="relative overflow-hidden border-b bg-gradient-to-b from-slate-50 to-white">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 lg:grid-cols-2 lg:px-8 lg:py-28">
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <div className="inline-flex rounded-full border bg-white px-4 py-1 text-sm text-slate-600 shadow-sm">
+            Your technology partner for scalable business solutions
+          </div>
+          <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            Enterprise Technology Solutions for Growing Businesses
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+            Build trust with a strong digital presence. This homepage is designed for One Global Info Systems with modern routing, service pages, industry pages, and clear calls to action.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button asChild size="lg" className="rounded-2xl px-6">
+              <Link to="/contact">Get Started</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="rounded-2xl px-6">
+              <Link to="/about">Learn More</Link>
+            </Button>
+          </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
+          <div className="rounded-[2rem] border bg-white p-6 shadow-xl">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <FeatureCard icon={<Layers3 className="h-6 w-6" />} title="Enterprise Platforms" text="Present your business systems, applications, and transformation offerings with clarity." />
+              <FeatureCard icon={<Briefcase className="h-6 w-6" />} title="Consulting Services" text="Showcase implementation, advisory, integration, and support capabilities." />
+              <FeatureCard icon={<Building2 className="h-6 w-6" />} title="Industry Focus" text="Highlight the industries and business domains you support." />
+              <FeatureCard icon={<CheckCircle2 className="h-6 w-6" />} title="Trust Signals" text="Feature metrics, client stories, and differentiators in a structured format." />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function HomePage() {
+  return (
+    <>
+      <Hero />
+
+      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+        <SectionHeading
+          eyebrow="What We Offer"
+          title="Explore solutions built for delivery, integration, and growth"
+          text="This section mirrors the reference site's structure while keeping the copy flexible so you can replace it later with your own business messaging."
+        />
+        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <FeatureCard icon={<Layers3 className="h-6 w-6" />} title="Enterprise Solutions" text="ERP, CRM, workflow systems, and business process modernization." />
+          <FeatureCard icon={<Briefcase className="h-6 w-6" />} title="Professional Services" text="Consulting, implementation, system design, and project delivery." />
+          <FeatureCard icon={<Building2 className="h-6 w-6" />} title="Industry Solutions" text="Tailored offerings by sector with business-focused value messaging." />
+          <FeatureCard icon={<CheckCircle2 className="h-6 w-6" />} title="Managed Support" text="Long-term support, enhancements, reporting, and optimization services." />
+        </div>
+      </section>
+
+      <section className="border-y bg-slate-50">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 lg:grid-cols-2 lg:px-8">
+          <div>
+            <SectionHeading
+              eyebrow="Why Choose Us"
+              title="Built to position One Global Info Systems as credible and modern"
+              text="The reference site leans heavily on trust, industry depth, and structured service groupings. This starter follows the same approach with a cleaner, modern UI."
+            />
+          </div>
+          <div className="grid gap-4">
+            {[
+              "Clear page routing for services, industries, resources, and contact",
+              "Static-site friendly structure for easy Vercel deployment",
+              "Reusable content sections so you can replace text later",
+              "Expandable into blog, case studies, careers, and contact forms",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-2xl bg-white p-5 shadow-sm">
+                <CheckCircle2 className="mt-0.5 h-5 w-5" />
+                <p className="text-sm leading-6 text-slate-700">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+        <SectionHeading
+          eyebrow="Featured Pages"
+          title="Core routed pages already planned"
+          text="You can keep this as a lightweight static site now and later connect forms, CMS content, or APIs when needed."
+        />
+        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {quickLinks.map((link) => (
+            <Link key={link.path} to={link.path}>
+              <Card className="rounded-3xl transition hover:-translate-y-1 hover:shadow-lg">
+                <CardContent className="flex items-center justify-between p-6">
+                  <div>
+                    <div className="text-lg font-semibold">{link.name}</div>
+                    <div className="mt-2 text-sm text-slate-600">Editable page with reusable layout and company-focused positioning.</div>
+                  </div>
+                  <ArrowRight className="h-5 w-5" />
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function GenericPage({ title, category, description }) {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+      <div className="max-w-4xl">
+        <div className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">{category}</div>
+        <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+        <p className="mt-6 text-lg leading-8 text-slate-600">{description}</p>
+      </div>
+
+      <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <Card className="rounded-3xl"><CardContent className="p-6"><h3 className="text-lg font-semibold">Overview</h3><p className="mt-3 text-sm leading-6 text-slate-600">Replace this with One Global Info Systems content, service details, platform benefits, or industry-focused value statements.</p></CardContent></Card>
+        <Card className="rounded-3xl"><CardContent className="p-6"><h3 className="text-lg font-semibold">Capabilities</h3><p className="mt-3 text-sm leading-6 text-slate-600">Use this area for bullet-style sections such as implementation, support, migration, analytics, or transformation services.</p></CardContent></Card>
+        <Card className="rounded-3xl"><CardContent className="p-6"><h3 className="text-lg font-semibold">Business Value</h3><p className="mt-3 text-sm leading-6 text-slate-600">Add measurable outcomes such as efficiency, automation, cost reduction, scalability, or time-to-market improvements.</p></CardContent></Card>
+      </div>
+    </section>
+  );
+}
+
+function ContactPage() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+      <SectionHeading
+        eyebrow="Contact"
+        title="Let’s discuss your next project"
+        text="This is a static contact page for now. Later, we can connect it to email, Formspree, Google Forms, or a backend endpoint."
+      />
+      <div className="mt-12 grid gap-8 lg:grid-cols-2">
+        <Card className="rounded-3xl">
+          <CardContent className="p-6 space-y-4">
+            <div>
+              <label className="mb-2 block text-sm font-medium">Name</label>
+              <input className="w-full rounded-2xl border px-4 py-3 outline-none" placeholder="Your name" />
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-medium">Email</label>
+              <input className="w-full rounded-2xl border px-4 py-3 outline-none" placeholder="you@example.com" />
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-medium">Message</label>
+              <textarea className="min-h-[140px] w-full rounded-2xl border px-4 py-3 outline-none" placeholder="Tell us about your needs" />
+            </div>
+            <Button className="rounded-2xl px-6">Submit</Button>
+          </CardContent>
+        </Card>
+        <Card className="rounded-3xl">
+          <CardContent className="p-6 space-y-5">
+            <div className="text-xl font-semibold">Company Information</div>
+            <div className="flex items-center gap-3 text-slate-600"><Mail className="h-5 w-5" /> info@oneglobalinfosystems.com</div>
+            <div className="flex items-center gap-3 text-slate-600"><Phone className="h-5 w-5" /> +1 (000) 000-0000</div>
+            <div className="flex items-center gap-3 text-slate-600"><MapPin className="h-5 w-5" /> Columbus, Ohio</div>
+            <div className="rounded-2xl bg-slate-50 p-5 text-sm leading-6 text-slate-600">
+              Add office locations, business hours, sales email, recruiting email, or embedded maps later.
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+
+          <Route path="/solutions/enterprise" element={<GenericPage category="Solutions" title="Enterprise Solutions" description="Showcase your enterprise platforms, application modernization work, and end-to-end delivery capabilities." />} />
+          <Route path="/solutions/cloud" element={<GenericPage category="Solutions" title="Cloud Services" description="Describe migration, hosting, architecture, DevOps, and cloud optimization offerings." />} />
+          <Route path="/solutions/data-analytics" element={<GenericPage category="Solutions" title="Data & Analytics" description="Position your reporting, dashboarding, engineering, and analytics services with scalable messaging." />} />
+          <Route path="/solutions/managed-services" element={<GenericPage category="Solutions" title="Managed Services" description="Present application support, maintenance, monitoring, and long-term managed engagement options." />} />
+
+          <Route path="/services/consulting" element={<GenericPage category="Services" title="Consulting" description="Use this page for strategic advisory, assessments, roadmaps, and digital transformation consulting." />} />
+          <Route path="/services/system-integration" element={<GenericPage category="Services" title="System Integration" description="Highlight API integrations, workflow automation, platform connectivity, and data exchange capabilities." />} />
+          <Route path="/services/implementation" element={<GenericPage category="Services" title="Implementation" description="Explain deployment, configuration, delivery models, testing, and go-live support." />} />
+          <Route path="/services/support-training" element={<GenericPage category="Services" title="Support & Training" description="Summarize hypercare, knowledge transfer, support desk, and user enablement services." />} />
+
+          <Route path="/industries/healthcare" element={<GenericPage category="Industries" title="Healthcare" description="Customize this page around compliance, patient systems, operational workflows, or healthcare IT support." />} />
+          <Route path="/industries/retail" element={<GenericPage category="Industries" title="Retail" description="Position capabilities around customer experience, inventory, reporting, and omnichannel systems." />} />
+          <Route path="/industries/manufacturing" element={<GenericPage category="Industries" title="Manufacturing" description="Describe production workflows, supply chain visibility, reporting, and operations transformation." />} />
+          <Route path="/industries/technology" element={<GenericPage category="Industries" title="Technology" description="Show software delivery, integrations, cloud services, and business systems support for tech companies." />} />
+
+          <Route path="/about" element={<GenericPage category="Company" title="About One Global Info Systems" description="Tell your story, mission, leadership approach, company values, and differentiators here." />} />
+          <Route path="/careers" element={<GenericPage category="Company" title="Careers" description="Add hiring information, benefits, work culture, and open role placeholders on this page." />} />
+          <Route path="/resources" element={<GenericPage category="Company" title="Resources" description="Turn this into a hub for blogs, case studies, whitepapers, FAQs, or downloadable documents later." />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
+}
