@@ -6,10 +6,45 @@ import { Button, Section, Card, PageHero, fadeUp } from "../components/ui.jsx";
 
 export default function Contact() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [error, setError] = React.useState("");
 
-  const handleSubmit = (e) => {
+  // Web3Forms delivers each submission to the inbox tied to this key.
+  // Set VITE_WEB3FORMS_KEY in Vercel → Settings → Environment Variables.
+  const accessKey = import.meta.env.VITE_WEB3FORMS_KEY;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError("");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    if (data.get("botcheck")) return; // spam bot filled the hidden field
+
+    if (!accessKey) {
+      setError(`Our form is temporarily unavailable. Please email us at ${brand.email} or call ${brand.phone}.`);
+      return;
+    }
+
+    data.append("access_key", accessKey);
+    data.append("subject", `New website enquiry from ${data.get("name") || "a visitor"}`);
+    data.append("from_name", `${brand.shortName} website`);
+
+    setSending(true);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.success) throw new Error(json.message || "Request failed");
+      form.reset();
+      setSubmitted(true);
+    } catch {
+      setError(`Sorry, your message couldn't be sent. Please try again, or email us at ${brand.email}.`);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -37,12 +72,14 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label className="mb-1.5 block text-sm font-medium text-slate-700">Name</label>
                       <input
                         required
                         className="w-full rounded-xl border border-slate-200 px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        name="name"
                         placeholder="Your name"
                       />
                     </div>
@@ -50,6 +87,7 @@ export default function Contact() {
                       <label className="mb-1.5 block text-sm font-medium text-slate-700">Company</label>
                       <input
                         className="w-full rounded-xl border border-slate-200 px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        name="company"
                         placeholder="Company name"
                       />
                     </div>
@@ -61,6 +99,7 @@ export default function Contact() {
                         type="email"
                         required
                         className="w-full rounded-xl border border-slate-200 px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        name="email"
                         placeholder="you@company.com"
                       />
                     </div>
@@ -68,6 +107,7 @@ export default function Contact() {
                       <label className="mb-1.5 block text-sm font-medium text-slate-700">Phone</label>
                       <input
                         className="w-full rounded-xl border border-slate-200 px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        name="phone"
                         placeholder="Optional"
                       />
                     </div>
@@ -76,7 +116,7 @@ export default function Contact() {
                     <label className="mb-1.5 block text-sm font-medium text-slate-700">
                       What are you working on?
                     </label>
-                    <select className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <select name="topic" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                       <option>New ERP selection or implementation</option>
                       <option>Quality management (QMS)</option>
                       <option>MES / WMS / shop floor</option>
@@ -90,16 +130,18 @@ export default function Contact() {
                     <textarea
                       required
                       className="min-h-[130px] w-full rounded-xl border border-slate-200 px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
-                      placeholder="Tell us about your systems, challenges, and timeline"
+                      name="message"
+                        placeholder="Tell us about your systems, challenges, and timeline"
                     />
                   </div>
-                  <Button type="submit" className="w-full sm:w-auto">
-                    Send Message
+                  {error && (
+                    <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+                      {error}
+                    </p>
+                  )}
+                  <Button type="submit" disabled={sending} className="w-full sm:w-auto disabled:opacity-60">
+                    {sending ? "Sending…" : "Send Message"}
                   </Button>
-                  <p className="text-xs text-slate-400">
-                    Demo form — submissions aren't sent anywhere yet. Connect it to email or a
-                    form service before launch.
-                  </p>
                 </form>
               )}
             </Card>
