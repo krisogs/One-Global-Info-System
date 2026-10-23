@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+/*
+  One Global Info Systems — brand theme
+  Palette pulled from the company logo:
+    Royal blue  #2f6de4   (primary — mapped over Tailwind's indigo scale)
+    Teal        #2bbcb9   (secondary — mapped over Tailwind's violet scale)
+    Orange      #f0932b   (warm accent — Tailwind amber stays close to this)
+    Magenta     #c0245e   (accent, used in the logo mark)
+  Existing indigo and violet utility classes across the site automatically
+  pick up the brand colors via these overrides.
+*/
+@theme {
+  /* Primary: logo royal blue */
+  --color-indigo-50: #eef5ff;
+  --color-indigo-100: #dbe9fe;
+  --color-indigo-200: #bfd8fe;
+  --color-indigo-300: #93befd;
+  --color-indigo-400: #609afa;
+  --color-indigo-500: #3b7bf0;
+  --color-indigo-600: #2f6de4;
+  --color-indigo-700: #2256c2;
+  --color-indigo-800: #20469c;
+  --color-indigo-900: #1f3d7c;
+  --color-indigo-950: #17294f;
+
+  /* Secondary: logo teal */
+  --color-violet-50: #effbfa;
+  --color-violet-100: #d6f5f3;
+  --color-violet-200: #b1eae8;
+  --color-violet-300: #7cd9d8;
+  --color-violet-400: #45c3c1;
+  --color-violet-500: #2bbcb9;
+  --color-violet-600: #1f9d9c;
+  --color-violet-700: #1d7e7e;
+  --color-violet-800: #1d6465;
+  --color-violet-900: #1c5354;
+  --color-violet-950: #0b3536;
+
+  /* Logo accents available as utilities (bg-brand-orange, text-brand-magenta, …) */
+  --color-brand-orange: #f0932b;
+  --color-brand-magenta: #c0245e;
+  --color-brand-teal: #2bbcb9;
+  --color-brand-blue: #2f6de4;
+}
