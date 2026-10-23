@@ -1,28 +1,35 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
-import Home from "./pages/Home.jsx";
-import Contact from "./pages/Contact.jsx";
-import {
-  SolutionPage,
-  ServicePage,
-  ManagedServicesOverview,
-  ManagedServicePage,
-  NotFound,
-} from "./pages/detail.jsx";
-import { About, News, Careers } from "./pages/company.jsx";
-import {
-  ResourcesHub,
-  Blog,
-  Webinars,
-  CaseStudies,
-  CaseStudyPage,
-} from "./pages/resources.jsx";
 
+// Each page loads on demand, so the first visit only downloads what it needs.
+const named = (loader, name) => lazy(() => loader().then((m) => ({ default: m[name] })));
+const loadDetail = () => import("./pages/Detail.jsx");
+const loadCompany = () => import("./pages/Company.jsx");
+const loadResources = () => import("./pages/Resources.jsx");
+
+const Home = lazy(() => import("./pages/Home.jsx"));
+const Contact = lazy(() => import("./pages/Contact.jsx"));
+const SolutionPage = named(loadDetail, "SolutionPage");
+const ServicePage = named(loadDetail, "ServicePage");
+const ManagedServicesOverview = named(loadDetail, "ManagedServicesOverview");
+const ManagedServicePage = named(loadDetail, "ManagedServicePage");
+const NotFound = named(loadDetail, "NotFound");
+const About = named(loadCompany, "About");
+const News = named(loadCompany, "News");
+const Careers = named(loadCompany, "Careers");
+const ResourcesHub = named(loadResources, "ResourcesHub");
+const Blog = named(loadResources, "Blog");
+const Webinars = named(loadResources, "Webinars");
+const CaseStudies = named(loadResources, "CaseStudies");
+const CaseStudyPage = named(loadResources, "CaseStudyPage");
+
+// The router is supplied by the caller: BrowserRouter in the browser
+// (main.jsx) and StaticRouter when pre-rendering (entry-server.jsx).
 export default function App() {
   return (
-    <Router>
-      <Layout>
+    <Layout>
+      <Suspense fallback={<div className="min-h-[60vh]" />}>
         <Routes>
           <Route path="/" element={<Home />} />
 
@@ -44,7 +51,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Layout>
-    </Router>
+      </Suspense>
+    </Layout>
   );
 }

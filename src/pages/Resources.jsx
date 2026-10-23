@@ -12,7 +12,7 @@ import {
   PageHero,
   fadeUp,
 } from "../components/ui.jsx";
-import { NotFound } from "./detail.jsx";
+import { NotFound } from "./Detail.jsx";
 
 const formatDate = (iso) =>
   new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
