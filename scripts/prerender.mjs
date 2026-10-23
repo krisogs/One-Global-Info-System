@@ -58,6 +58,9 @@ for (const route of routes) {
     `<meta property="og:description" content="${esc(meta.description)}" />`,
     `<meta property="og:url" content="${url}" />`,
     `<meta property="og:image" content="${OG_IMAGE}" />`,
+    `<meta property="og:image:width" content="1200" />`,
+    `<meta property="og:image:height" content="630" />`,
+    `<meta property="og:image:alt" content="${esc(brand.name)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     route === "/"
       ? `<script type="application/ld+json">${JSON.stringify(business).replace(/</g, "\\u003c")}</script>`
