@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, MapPin, ArrowRight } from "lucide-react";
-import { brand, solutions, services, managedServices } from "../data/site.js";
+import { brand, show, solutions, services, managedServices } from "../data/site.js";
 import { Button } from "./ui.jsx";
 import ChatBot from "./ChatBot.jsx";
 import Search from "./Search.jsx";
@@ -34,18 +34,18 @@ const navGroups = [
     label: "Company",
     links: [
       { name: "About Us", path: "/about" },
-      { name: "News", path: "/news" },
+      show.news && { name: "News", path: "/news" },
       { name: "Careers", path: "/careers" },
-    ],
+    ].filter(Boolean),
   },
   {
     label: "Resources",
     links: [
-      { name: "All Resources", path: "/resources" },
-      { name: "Blog", path: "/blog" },
+      (show.blog || show.webinars || show.dataSheets) && { name: "All Resources", path: "/resources" },
+      show.blog && { name: "Blog", path: "/blog" },
       { name: "Case Studies", path: "/case-studies" },
-      { name: "Webinars", path: "/webinars" },
-    ],
+      show.webinars && { name: "Webinars", path: "/webinars" },
+    ].filter(Boolean),
   },
 ];
 
@@ -344,11 +344,11 @@ function Footer() {
             title="Company"
             links={[
               { name: "About Us", path: "/about" },
-              { name: "News", path: "/news" },
+              show.news && { name: "News", path: "/news" },
               { name: "Careers", path: "/careers" },
               { name: "Resources", path: "/resources" },
               { name: "Contact", path: "/contact" },
-            ]}
+            ].filter(Boolean)}
           />
         </div>
 

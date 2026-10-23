@@ -2,7 +2,7 @@ import React from "react";
 import { motion as Motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
 import { ArrowRight, PlayCircle, FileText, Quote, Calendar } from "lucide-react";
-import { blogPosts, webinars, dataSheets, caseStudies } from "../data/site.js";
+import { blogPosts, webinars, dataSheets, caseStudies, show } from "../data/site.js";
 import {
   Button,
   Section,
@@ -24,10 +24,12 @@ const formatDate = (iso) =>
 // ── Resources hub ────────────────────────────────────────────
 export function ResourcesHub() {
   const sections = [
-    { title: "Blog", path: "/blog", text: "Field-tested perspectives on ERP, quality, and supply chain systems.", icon: FileText },
+    show.blog && { title: "Blog", path: "/blog", text: "Field-tested perspectives on ERP, quality, and supply chain systems.", icon: FileText },
     { title: "Case Studies", path: "/case-studies", text: "Real projects with real numbers, across our client industries.", icon: Quote },
-    { title: "Webinars", path: "/webinars", text: "Live and on-demand sessions with our practice leads.", icon: PlayCircle },
-  ];
+    show.webinars && { title: "Webinars", path: "/webinars", text: "Live and on-demand sessions with our practice leads.", icon: PlayCircle },
+  ].filter(Boolean);
+  // Only case studies are live right now: show them directly instead of a one-card hub.
+  if (sections.length === 1 && !show.dataSheets) return <CaseStudies />;
   return (
     <>
       <PageHero
@@ -56,6 +58,7 @@ export function ResourcesHub() {
         </div>
       </Section>
 
+      {show.dataSheets && (
       <Section tinted>
         <SectionHeading
           eyebrow="Data Sheets"
@@ -81,6 +84,7 @@ export function ResourcesHub() {
           ))}
         </div>
       </Section>
+      )}
       <CTA />
     </>
   );

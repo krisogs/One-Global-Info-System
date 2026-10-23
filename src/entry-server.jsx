@@ -8,6 +8,7 @@ import {
   services,
   managedServices,
   caseStudies,
+  show,
 } from "./data/site.js";
 
 export { findMeta, SITE_URL, OG_IMAGE } from "./data/seo.js";
@@ -16,11 +17,11 @@ export { brand } from "./data/site.js";
 export const routes = [
   "/",
   "/about",
-  "/news",
+  ...(show.news ? ["/news"] : []),
   "/careers",
   "/resources",
-  "/blog",
-  "/webinars",
+  ...(show.blog ? ["/blog"] : []),
+  ...(show.webinars ? ["/webinars"] : []),
   "/case-studies",
   "/contact",
   "/managed-services",
