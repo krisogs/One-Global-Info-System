@@ -10,7 +10,11 @@ import Seo from "./Seo.jsx";
 const navGroups = [
   {
     label: "Solutions",
-    links: solutions.map((s) => ({ name: s.name, path: `/solutions/${s.slug}` })),
+    links: solutions.map((s) => ({
+      name: s.name,
+      path: `/solutions/${s.slug}`,
+      note: s.platforms?.map((p) => p.name).join(" · "),
+    })),
   },
   {
     label: "Services",
@@ -156,7 +160,12 @@ function Header() {
                         }`
                       }
                     >
-                      {link.name}
+                      <span>
+                        {link.name}
+                        {link.note && (
+                          <span className="mt-0.5 block text-xs font-normal text-slate-400">{link.note}</span>
+                        )}
+                      </span>
                       <ChevronRight className="h-4 w-4 text-slate-300" />
                     </NavLink>
                   ))}

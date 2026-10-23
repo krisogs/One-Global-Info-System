@@ -77,7 +77,7 @@ export function About() {
         </div>
       </Section>
 
-      <CTA title="Work with a team that's done this 300 times" />
+      <CTA title="Work with a team that's done this 30+ times" />
     </>
   );
 }

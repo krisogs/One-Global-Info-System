@@ -85,6 +85,26 @@ export function SolutionPage() {
         </div>
       </Section>
 
+      {item.platforms && (
+        <Section>
+          <SectionHeading
+            eyebrow="ERP Platforms"
+            title="The ERP platforms we implement and support"
+            text="We help you choose the right fit, then implement, integrate, and support it."
+          />
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {item.platforms.map((p) => (
+              <Motion.div key={p.name} {...fadeUp}>
+                <Card className="h-full p-6">
+                  <h3 className="text-lg font-semibold text-slate-900">{p.name}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{p.text}</p>
+                </Card>
+              </Motion.div>
+            ))}
+          </div>
+        </Section>
+      )}
+
       <Section tinted>
         <SectionHeading
           eyebrow="Capabilities"

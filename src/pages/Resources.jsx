@@ -32,7 +32,7 @@ export function ResourcesHub() {
     <>
       <PageHero
         eyebrow="Resources"
-        title="Learn from 300+ implementations"
+        title="Learn from 30+ implementations"
         text="Guides, client stories, and sessions from consultants in the field — not marketing content."
       />
       <Section>
