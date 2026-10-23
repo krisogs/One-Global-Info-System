@@ -8,6 +8,7 @@ import {
   managedServices,
   caseStudies,
   blogPosts,
+  show,
 } from "../data/site.js";
 
 // Build the search index once from site data
@@ -16,13 +17,13 @@ const INDEX = [
   ...services.map((i) => ({ label: i.name, group: "Services", text: i.summary, to: `/services/${i.slug}` })),
   ...managedServices.map((i) => ({ label: i.name, group: "Managed Services", text: i.summary, to: `/managed-services/${i.slug}` })),
   ...caseStudies.map((i) => ({ label: `${i.client}: ${i.title}`, group: "Case Studies", text: i.summary, to: `/case-studies/${i.slug}` })),
-  ...blogPosts.map((i) => ({ label: i.title, group: "Blog", text: i.excerpt, to: "/blog" })),
+  ...(show.blog ? blogPosts.map((i) => ({ label: i.title, group: "Blog", text: i.excerpt, to: "/blog" })) : []),
   { label: "About Us", group: "Company", text: "story values team history", to: "/about" },
   { label: "Careers", group: "Company", text: "jobs open roles hiring", to: "/careers" },
-  { label: "News", group: "Company", text: "announcements press milestones", to: "/news" },
+  show.news && { label: "News", group: "Company", text: "announcements press milestones", to: "/news" },
   { label: "Contact", group: "Company", text: "phone email address talk to an expert", to: "/contact" },
-  { label: "Webinars", group: "Resources", text: "live sessions replays register", to: "/webinars" },
-];
+  show.webinars && { label: "Webinars", group: "Resources", text: "live sessions replays register", to: "/webinars" },
+].filter(Boolean);
 
 function search(query) {
   const q = query.trim().toLowerCase();

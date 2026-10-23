@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
+import { show } from "./data/site.js";
 
 // Each page loads on demand, so the first visit only downloads what it needs.
 const named = (loader, name) => lazy(() => loader().then((m) => ({ default: m[name] })));
@@ -39,12 +40,12 @@ export default function App() {
           <Route path="/managed-services/:slug" element={<ManagedServicePage />} />
 
           <Route path="/about" element={<About />} />
-          <Route path="/news" element={<News />} />
+          {show.news && <Route path="/news" element={<News />} />}
           <Route path="/careers" element={<Careers />} />
 
           <Route path="/resources" element={<ResourcesHub />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/webinars" element={<Webinars />} />
+          {show.blog && <Route path="/blog" element={<Blog />} />}
+          {show.webinars && <Route path="/webinars" element={<Webinars />} />}
           <Route path="/case-studies" element={<CaseStudies />} />
           <Route path="/case-studies/:slug" element={<CaseStudyPage />} />
 

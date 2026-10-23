@@ -20,6 +20,15 @@ export const brand = {
   },
 };
 
+// ── Page switches ────────────────────────────────────────────
+// Set to true to show a page again (menu, footer, search, sitemap).
+export const show = {
+  news: false,
+  blog: false,
+  webinars: false,
+  dataSheets: false,
+};
+
 export const stats = [
   { value: "30+", label: "Enterprise implementations" },
   { value: "8+", label: "Years in business" },

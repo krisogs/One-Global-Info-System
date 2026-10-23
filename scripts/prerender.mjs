@@ -78,5 +78,14 @@ for (const route of routes) {
   await fs.writeFile(out, html);
 }
 
+// Sitemap is generated from the same route list, so it never goes stale.
+const today = new Date().toISOString().slice(0, 10);
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes.map((r) => `  <url><loc>${SITE_URL}${r}</loc><lastmod>${today}</lastmod></url>`).join("\n")}
+</urlset>
+`;
+await fs.writeFile(path.join(dist, "sitemap.xml"), sitemap);
+
 await fs.rm(path.join(root, "dist-ssr"), { recursive: true, force: true });
 console.log(`Pre-rendered ${routes.length} pages.`);

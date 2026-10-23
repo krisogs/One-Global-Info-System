@@ -30,7 +30,7 @@ const staticMeta = {
   },
   "/resources": {
     title: `Resources — ${brand.name}`,
-    description: "Guides, case studies, webinars, and data sheets from 30+ enterprise implementations.",
+    description: "Client case studies and resources from 30+ enterprise implementations.",
   },
   "/blog": {
     title: `Blog — ${brand.name}`,
