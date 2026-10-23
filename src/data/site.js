@@ -12,6 +12,7 @@ export const brand = {
   phone: "+1 (630) 559-4613",
   email: "info@oneglobalsys.com",
   address: "3030 Warrenville Rd, Lisle, IL 60532",
+  // Footer social links. Leave a value as "" to hide that link.
   social: {
     linkedin: "https://www.linkedin.com/company/one-global-info-systems",
     x: "https://x.com/oneglobalinfo",

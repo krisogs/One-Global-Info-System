@@ -357,9 +357,23 @@ function Footer() {
             © {new Date().getFullYear()} {brand.name}. All rights reserved.
           </div>
           <div className="flex items-center gap-5">
-            <a href={brand.social.linkedin} className="transition hover:text-white">LinkedIn</a>
-            <a href={brand.social.x} className="transition hover:text-white">X</a>
-            <a href={brand.social.facebook} className="transition hover:text-white">Facebook</a>
+            {[
+              ["LinkedIn", brand.social.linkedin],
+              ["X", brand.social.x],
+              ["Facebook", brand.social.facebook],
+            ]
+              .filter(([, href]) => href)
+              .map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition hover:text-white"
+                >
+                  {label}
+                </a>
+              ))}
             <Link to="/contact" className="inline-flex items-center gap-1 font-semibold text-indigo-400 transition hover:text-indigo-300">
               Start a project <ArrowRight className="h-3 w-3" />
             </Link>

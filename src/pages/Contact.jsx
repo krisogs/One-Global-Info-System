@@ -1,4 +1,5 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, CheckCircle2 } from "lucide-react";
 import { brand } from "../data/site.js";
@@ -6,6 +7,16 @@ import { Button, Section, Card, PageHero, fadeUp } from "../components/ui.jsx";
 
 export default function Contact() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [searchParams] = useSearchParams();
+  const messageRef = React.useRef(null);
+
+  // Pre-fill the message when arriving from the chatbot (/contact?message=…).
+  React.useEffect(() => {
+    const prefill = searchParams.get("message");
+    if (prefill && messageRef.current && !messageRef.current.value) {
+      messageRef.current.value = prefill;
+    }
+  }, [searchParams]);
   const [sending, setSending] = React.useState(false);
   const [error, setError] = React.useState("");
 
@@ -128,6 +139,7 @@ export default function Contact() {
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-slate-700">Message</label>
                     <textarea
+                      ref={messageRef}
                       required
                       className="min-h-[130px] w-full rounded-xl border border-slate-200 px-4 py-3 text-base outline-none sm:text-sm transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                       name="message"

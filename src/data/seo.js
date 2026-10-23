@@ -55,7 +55,8 @@ const staticMeta = {
 };
 
 export const SITE_URL = "https://www.oneglobalsys.com";
-export const OG_IMAGE = `${SITE_URL}/logo-full.png`;
+// 1200×630 banner used when the site is shared (LinkedIn, Teams, texts…)
+export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export function findMeta(pathname) {
   if (staticMeta[pathname]) return staticMeta[pathname];

@@ -18,6 +18,11 @@ const QUICK_STARTERS = [
   "How do I contact you?",
 ];
 
+// Contact page link with the visitor's question pre-filled in the message box.
+function contactLink(question) {
+  return question ? `/contact?message=${encodeURIComponent(question)}` : "/contact";
+}
+
 function linkList(items, basePath) {
   return items.map((i) => ({ label: i.name, to: `${basePath}/${i.slug}` }));
 }
@@ -68,7 +73,7 @@ function answer(raw) {
   // Solutions overview
   if (has("solution", "product", "platform", "erp", "software", "offer")) {
     return {
-      text: "We implement and manage five enterprise platforms — all sharing one data backbone:",
+      text: `We implement and manage ${solutions.length} enterprise solutions — including QAD, Microsoft Dynamics 365 and Oracle NetSuite for ERP:`,
       links: linkList(solutions, "/solutions"),
     };
   }
@@ -185,8 +190,8 @@ function answer(raw) {
 
   // Fallback
   return {
-    text: "I'm not sure about that one — I can help with our solutions, services, managed support, pricing, and contact info. For anything else, a consultant can give you a real answer within one business day.",
-    links: [{ label: "Ask a consultant", to: "/contact" }],
+    text: "I'm not sure about that one — I can help with our solutions, services, managed support, pricing, and contact info. For anything else, send your question to a consultant and you'll get a real answer within one business day.",
+    links: [{ label: "Send this question to a consultant", to: contactLink(raw) }],
     chips: QUICK_STARTERS,
   };
 }
@@ -238,6 +243,7 @@ export default function ChatBot() {
     },
   ]);
   const scrollRef = React.useRef(null);
+  const lastQuestion = [...messages].reverse().find((m) => m.role === "user")?.text || "";
 
   React.useEffect(() => {
     if (scrollRef.current) {
@@ -304,6 +310,16 @@ export default function ChatBot() {
                 )
               )}
             </div>
+
+            {/* Hand-off to a person */}
+            <Link
+              to={contactLink(lastQuestion)}
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-4 py-2.5 text-xs font-medium text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-700"
+            >
+              Prefer a person? Message a consultant
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
 
             {/* Input */}
             <form
