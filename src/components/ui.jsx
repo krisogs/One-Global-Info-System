@@ -1,7 +1,35 @@
 import React from "react";
 import { motion as Motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import * as Icons from "lucide-react";
+import {
+  ArrowLeftRight,
+  BadgeCheck,
+  Building2,
+  Car,
+  Cog,
+  Compass,
+  Cpu,
+  FlaskConical,
+  GraduationCap,
+  Headset,
+  HeartPulse,
+  Layers3,
+  LineChart,
+  Network,
+  Repeat,
+  Rocket,
+  ServerCog,
+  ShieldCheck,
+  ShoppingBag,
+  Sparkles,
+  Sprout,
+  Stethoscope,
+  Truck,
+  Users,
+  UtensilsCrossed,
+  Warehouse,
+  Wrench,
+} from "lucide-react";
 import { ArrowRight, CheckCircle2, ChevronRight } from "lucide-react";
 
 const crumbLabels = {
@@ -54,9 +82,41 @@ function Breadcrumbs({ leaf }) {
   );
 }
 
+// Icons referenced by name from src/data/site.js. Only these are bundled —
+// if you add a new `icon:` name in site.js, import it above and add it here.
+const Icons = {
+  ArrowLeftRight,
+  BadgeCheck,
+  Building2,
+  Car,
+  Cog,
+  Compass,
+  Cpu,
+  FlaskConical,
+  GraduationCap,
+  Headset,
+  HeartPulse,
+  Layers3,
+  LineChart,
+  Network,
+  Repeat,
+  Rocket,
+  ServerCog,
+  ShieldCheck,
+  ShoppingBag,
+  Sparkles,
+  Sprout,
+  Stethoscope,
+  Truck,
+  Users,
+  UtensilsCrossed,
+  Warehouse,
+  Wrench,
+};
+
 // Resolve a lucide icon by string name (used by data-driven pages)
 export function Icon({ name, className = "h-6 w-6" }) {
-  const Cmp = Icons[name] || Icons.Sparkles;
+  const Cmp = Icons[name] || Sparkles;
   return <Cmp className={className} />;
 }
 
