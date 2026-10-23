@@ -9,7 +9,7 @@ export const brand = {
   initials: "OG",
   tagline: "Enterprise Technology. Delivered.",
   founded: 2008,
-  phone: "+1 (630) 659-5617",
+  phone: "+1 (630) 559-4613",
   email: "info@oneglobalsys.com",
   address: "3030 Warrenville Rd, Lisle, IL 60532",
   social: {
