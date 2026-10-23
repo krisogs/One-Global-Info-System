@@ -13,12 +13,12 @@ const staticMeta = {
   "/": {
     title: `${brand.name} — Enterprise ERP, Quality & Supply Chain Experts`,
     description:
-      "ERP, QMS, MES, and WMS solutions — selected, implemented, integrated, and managed for manufacturers and distributors since 2008.",
+      "ERP, QMS, MES, and WMS solutions — selected, implemented, integrated, and managed for manufacturers and distributors since 2018.",
   },
   "/about": {
     title: `About Us — ${brand.name}`,
     description:
-      "Enterprise systems consultancy for manufacturers and distributors. 300+ implementations, 97% client retention, since 2008.",
+      "Enterprise systems consultancy for manufacturers and distributors. 30+ implementations, 97% client retention, since 2018.",
   },
   "/news": {
     title: `News — ${brand.name}`,
@@ -30,7 +30,7 @@ const staticMeta = {
   },
   "/resources": {
     title: `Resources — ${brand.name}`,
-    description: "Guides, case studies, webinars, and data sheets from 300+ enterprise implementations.",
+    description: "Guides, case studies, webinars, and data sheets from 30+ enterprise implementations.",
   },
   "/blog": {
     title: `Blog — ${brand.name}`,

@@ -8,7 +8,7 @@ export const brand = {
   shortName: "One Global",
   initials: "OG",
   tagline: "Enterprise Technology. Delivered.",
-  founded: 2008,
+  founded: 2018,
   phone: "+1 (630) 559-4613",
   email: "info@oneglobalsys.com",
   address: "3030 Warrenville Rd, Lisle, IL 60532",
@@ -20,8 +20,8 @@ export const brand = {
 };
 
 export const stats = [
-  { value: "300+", label: "Enterprise implementations" },
-  { value: "18+", label: "Years in business" },
+  { value: "30+", label: "Enterprise implementations" },
+  { value: "8+", label: "Years in business" },
   { value: "97%", label: "Client retention rate" },
   { value: "24/7", label: "Managed services coverage" },
 ];
@@ -44,6 +44,20 @@ export const solutions = [
       { title: "Reporting & Dashboards", text: "Role-based KPIs, saved searches, and drill-down reporting without exports." },
       { title: "Global Operations", text: "Multi-currency, multi-subsidiary, and localized tax and compliance support." },
       { title: "Workflow Automation", text: "Approvals, alerts, and exception handling that remove manual handoffs." },
+    ],
+    platforms: [
+      {
+        name: "QAD",
+        text: "Manufacturing-focused ERP for discrete, process, and regulated industries, including QAD Adaptive ERP.",
+      },
+      {
+        name: "Microsoft Dynamics 365",
+        text: "Dynamics 365 Business Central, Finance, and Supply Chain Management — connected to the Microsoft stack you already use.",
+      },
+      {
+        name: "Oracle NetSuite",
+        text: "Cloud ERP for growing and multi-entity businesses, with financials, inventory, and order management in one suite.",
+      },
     ],
     benefits: [
       "Close the books in days, not weeks",
@@ -307,7 +321,7 @@ export const services = [
     summary:
       "Fixed-scope, milestone-driven implementations that go live on time.",
     description:
-      "Implementation is where enterprise projects succeed or fail. Our methodology — refined across 300+ projects — pairs industry-experienced consultants with a phased, milestone-driven plan: discover, design, build, validate, deploy. You get a named project team, weekly status transparency, and a go-live your business can actually absorb.",
+      "Implementation is where enterprise projects succeed or fail. Our methodology — refined across 30+ projects — pairs industry-experienced consultants with a phased, milestone-driven plan: discover, design, build, validate, deploy. You get a named project team, weekly status transparency, and a go-live your business can actually absorb.",
     deliverables: [
       "Business process discovery and future-state design",
       "System configuration and data migration",
@@ -538,7 +552,7 @@ export const blogPosts = [
     date: "2026-06-18",
     category: "ERP Strategy",
     excerpt:
-      "After 300+ implementations, the same selection mistakes keep appearing. Here's how to avoid the traps that lead to stalled projects and shelfware.",
+      "After 30+ implementations, the same selection mistakes keep appearing. Here's how to avoid the traps that lead to stalled projects and shelfware.",
   },
   {
     slug: "validation-cloud-erp",

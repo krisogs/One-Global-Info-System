@@ -115,7 +115,7 @@ function answer(raw) {
   // Specific services
   if (has("implement", "go-live", "golive", "project")) {
     return {
-      text: "Our implementation methodology is fixed-scope and milestone-driven — discover, design, build, validate, deploy — refined across 300+ projects.",
+      text: "Our implementation methodology is fixed-scope and milestone-driven — discover, design, build, validate, deploy — refined across 30+ projects.",
       links: [
         { label: "Implementation methodology", to: "/services/implementations" },
         { label: "Client results", to: "/case-studies" },
@@ -170,7 +170,7 @@ function answer(raw) {
   // About
   if (has("about", "company", "who are you", "history", "founded")) {
     return {
-      text: `One Global Info Systems has been implementing and managing enterprise systems for manufacturers and distributors since ${brand.founded} — 300+ implementations with a 97% client retention rate.`,
+      text: `One Global Info Systems has been implementing and managing enterprise systems for manufacturers and distributors since ${brand.founded} — 30+ implementations with a 97% client retention rate.`,
       links: [{ label: "About us", to: "/about" }],
     };
   }

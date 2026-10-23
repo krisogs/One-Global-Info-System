@@ -3,7 +3,6 @@ import { motion as Motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Quote } from "lucide-react";
 import {
-  brand,
   stats,
   solutions,
   services,
@@ -23,7 +22,7 @@ import {
   Eyebrow,
   fadeUp,
 } from "../components/ui.jsx";
-import { LogoStrip, FAQSection } from "../components/extras.jsx";
+import { FAQSection } from "../components/extras.jsx";
 
 function Hero() {
   return (
@@ -39,11 +38,7 @@ function Hero() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-4xl text-center"
         >
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white px-4 py-1.5 text-sm font-medium text-slate-600 shadow-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-brand-orange" />
-            Trusted by 300+ manufacturers and distributors since {brand.founded}
-          </div>
-          <h1 className="mt-8 text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl">
             Enterprise systems that run your business.{" "}
             <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
               Partners who run them with you.
@@ -82,7 +77,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <LogoStrip />
 
       {/* Solutions */}
       <Section>
@@ -129,7 +123,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Professional Services"
               title="From selection to go-live to every day after"
-              text="Implementation is where projects live or die. Our milestone-driven methodology has delivered 300+ projects — on scope, on time, and absorbed by the business."
+              text="Implementation is where projects live or die. Our milestone-driven methodology has delivered 30+ projects — on scope, on time, and absorbed by the business."
             />
             <ul className="mt-8 space-y-4">
               <CheckItem>Fixed-scope, milestone-driven delivery with weekly transparency</CheckItem>
