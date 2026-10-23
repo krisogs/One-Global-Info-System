@@ -13,7 +13,10 @@ const navGroups = [
     links: solutions.map((s) => ({
       name: s.name,
       path: `/solutions/${s.slug}`,
-      note: s.platforms?.map((p) => p.name).join(" · "),
+      children: s.platforms?.map((p) => ({
+        name: p.name,
+        path: `/solutions/${s.slug}#${p.slug}`,
+      })),
     })),
   },
   {
@@ -46,11 +49,25 @@ const navGroups = [
   },
 ];
 
+// New page → scroll to top. Link with #section (e.g. an ERP platform in the
+// Solutions menu) → scroll to that section once the page has loaded.
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    let tries = 0;
+    const timer = setInterval(() => {
+      const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (el || ++tries > 40) {
+        clearInterval(timer);
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 50);
+    return () => clearInterval(timer);
+  }, [pathname, hash]);
   return null;
 }
 
@@ -149,25 +166,42 @@ function Header() {
               <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
                 <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-xl shadow-slate-200/60">
                   {group.links.map((link) => (
-                    <NavLink
-                      key={link.path}
-                      to={link.path}
-                      className={({ isActive }) =>
-                        `flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm transition ${
-                          isActive
-                            ? "bg-indigo-50 font-semibold text-indigo-700"
-                            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                        }`
-                      }
-                    >
-                      <span>
+                    <div key={link.path} className="group/item relative">
+                      <NavLink
+                        to={link.path}
+                        className={({ isActive }) =>
+                          `flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm transition ${
+                            isActive
+                              ? "bg-indigo-50 font-semibold text-indigo-700"
+                              : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                          } ${link.children ? "group-hover/item:bg-slate-50 group-hover/item:text-slate-900" : ""}`
+                        }
+                      >
                         {link.name}
-                        {link.note && (
-                          <span className="mt-0.5 block text-xs font-normal text-slate-400">{link.note}</span>
-                        )}
-                      </span>
-                      <ChevronRight className="h-4 w-4 text-slate-300" />
-                    </NavLink>
+                        <ChevronRight
+                          className={`h-4 w-4 ${link.children ? "text-slate-500" : "text-slate-300"}`}
+                        />
+                      </NavLink>
+                      {link.children && (
+                        <div className="invisible absolute left-full top-0 z-50 w-64 pl-2 opacity-0 transition-all duration-150 group-hover/item:visible group-hover/item:opacity-100">
+                          <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-xl shadow-slate-200/60">
+                            <div className="px-3.5 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                              ERP Platforms
+                            </div>
+                            {link.children.map((child) => (
+                              <Link
+                                key={child.path}
+                                to={child.path}
+                                className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
+                              >
+                                {child.name}
+                                <ChevronRight className="h-4 w-4 text-slate-300" />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -211,13 +245,23 @@ function Header() {
                 {openGroup === group.label && (
                   <div className="grid gap-1 pb-2">
                     {group.links.map((link) => (
-                      <Link
-                        key={link.path}
-                        to={link.path}
-                        className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-50"
-                      >
-                        {link.name}
-                      </Link>
+                      <React.Fragment key={link.path}>
+                        <Link
+                          to={link.path}
+                          className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-50"
+                        >
+                          {link.name}
+                        </Link>
+                        {link.children?.map((child) => (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            className="ml-4 rounded-lg border-l border-slate-200 px-4 py-1.5 text-sm text-slate-500 hover:bg-slate-50"
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </React.Fragment>
                     ))}
                   </div>
                 )}
