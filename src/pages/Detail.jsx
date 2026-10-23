@@ -94,7 +94,7 @@ export function SolutionPage() {
           />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {item.platforms.map((p) => (
-              <Motion.div key={p.name} {...fadeUp}>
+              <Motion.div key={p.name} id={p.slug} className="scroll-mt-28" {...fadeUp}>
                 <Card className="h-full p-6">
                   <h3 className="text-lg font-semibold text-slate-900">{p.name}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{p.text}</p>

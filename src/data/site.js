@@ -47,14 +47,17 @@ export const solutions = [
     ],
     platforms: [
       {
+        slug: "qad",
         name: "QAD",
         text: "Manufacturing-focused ERP for discrete, process, and regulated industries, including QAD Adaptive ERP.",
       },
       {
+        slug: "dynamics-365",
         name: "Microsoft Dynamics 365",
         text: "Dynamics 365 Business Central, Finance, and Supply Chain Management — connected to the Microsoft stack you already use.",
       },
       {
+        slug: "netsuite",
         name: "Oracle NetSuite",
         text: "Cloud ERP for growing and multi-entity businesses, with financials, inventory, and order management in one suite.",
       },
